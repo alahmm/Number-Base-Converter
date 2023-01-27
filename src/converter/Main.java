@@ -54,20 +54,6 @@ public class Main {
             return str1;
         }
 
-/*        public String ConvertToHexadecimal() {
-            int number = Integer.parseInt(num);
-            String str1 = "";
-            while (number / 16 >= 15) {
-                str1 += HexaWriter(str1, number % 16);
-                number = number / 16;
-            }
-            str1 = HexaWriter(str1, number % 16);
-            if (number / 16 != 0) {
-                str1 = HexaWriter(str1, number / 16);
-            }
-
-            return Reverser(str1);
-        }*/
         public String Convert() {
             int number = Integer.parseInt(num);
             String str1 = "";
@@ -82,50 +68,6 @@ public class Main {
 
             return Reverser(str1);
         }
-
-/*        public String ConvertToOctal() {
-            int number = Integer.parseInt(num);
-            String str = "";
-            while (number / 8 >= 7) {
-                str += number % 8;
-                number = number / 8;
-            }
-            str += number % 8;
-            if (number / 8 != 0) {
-                str += number / 8;
-            }
-            return Reverser(str);
-        }*/
-/*        public String ConvertToBinary_Octal() {
-            int number = Integer.parseInt(num);
-            String str = "";
-            while (number / targetBase >= targetBase - 1) {
-                str += number % targetBase;
-                number = number / targetBase;
-            }
-            str += number % targetBase;
-            if (number / targetBase != 0) {
-                str += number / targetBase;
-            }
-            return Reverser(str);
-        }*/
-
-/*        public String ConvertToBinary() {
-            int number = Integer.parseInt(num);
-            List<Integer> listOfCharacters = new ArrayList<>();
-            while (number / 2 >= 1) {
-                listOfCharacters.add(number % 2);
-                number = number / 2;
-            }
-            listOfCharacters.add(1);
-            String str = "";
-            for (Integer variable : listOfCharacters
-            ) {
-                str += variable;
-            }
-            return Reverser(str);
-        }*/
-
         public String Reverser(String str) {
             char[] listOfChar = str.toCharArray();
             List<Character> array = new ArrayList<>();
