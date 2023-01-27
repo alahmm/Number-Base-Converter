@@ -6,33 +6,40 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Enter number in decimal system:");
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.next();
-        System.out.println("Enter target base:");
-        int targetBase = scanner.nextInt();
-        Decimal number = new Decimal(input, targetBase);
-        System.out.print("Conversion result: ");
-        if (targetBase == 2 || targetBase == 8 || targetBase == 16) {
-            System.out.print(number.Convert());
+        while (true) {
+            System.out.print("Do you want to convert /from decimal or /to decimal? (To quit type /exit)");
+            String input = scanner.next();
+            if (input.equals("/from")) {
+                System.out.print("Enter a number in decimal system:");
+                String input2 = scanner.next();
+                System.out.print("Enter target base:");
+                int targetBase = scanner.nextInt();
+                Decimal number = new Decimal(input2, targetBase);
+                if (targetBase == 2 || targetBase == 8 || targetBase == 16) {
+                    System.out.printf("%nConversion result: %s%n%n", number.ConvertFromDecimal());
+                }
+            } else if (input.equals("/to")) {
+                System.out.print("Enter source number:");
+                String input2 = scanner.next();
+                System.out.print("Enter source base:");
+                int targetBase = scanner.nextInt();
+                Decimal number = new Decimal(input2, targetBase);
+                if (targetBase == 2 || targetBase == 8 || targetBase == 16) {
+                    System.out.printf("%nConversion to decimal result: %s%n%n", number.ConverterToDecimal());
+                }
+            } else if (input.equals("/exit")) {
+                return;
+            }
         }
     }
 
-    static class Decimal {
+     static class Decimal {
         private String num;
-
-        public String getNum() {
-            return num;
-        }
+        private int targetBase;
 
         public void setNum(String num) {
             this.num = num;
-        }
-
-        private int targetBase;
-
-        public int getTargetBase() {
-            return targetBase;
         }
 
         public void setTargetBase(int targetBase) {
@@ -54,7 +61,7 @@ public class Main {
             return str1;
         }
 
-        public String Convert() {
+        public String ConvertFromDecimal() {
             int number = Integer.parseInt(num);
             String str1 = "";
             while (number / targetBase >= targetBase - 1) {
@@ -78,6 +85,28 @@ public class Main {
                 listOfChar[i] = array.get(i);
             }
             return String.valueOf(listOfChar);
+        }
+        public int ConverterToDecimal() {
+            int sum = 0;
+            String regex = "[0-9]";
+            String str = "";
+            String str2 = "";
+            for (int i = num.length() - 1; i >= 0; i--) {
+                str += num.charAt(i);
+                if (str.matches(regex)) {
+                    int var = num.charAt(i) - 48;
+                    sum += var * Math.pow(targetBase, num.length() - 1 - i);
+                    str = "";
+                } else {
+                    str2 = str.toUpperCase();
+                    for (int j = 0; j < str.length(); j++) {
+                        int var2 = str2.charAt(j) - 55;
+                        sum += var2 * Math.pow(targetBase, num.length() - 1 - i);
+                        str = "";
+                    }
+                }
+            }
+            return sum;
         }
     }
 }
