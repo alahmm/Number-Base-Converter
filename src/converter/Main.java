@@ -13,12 +13,8 @@ public class Main {
         int targetBase = scanner.nextInt();
         Decimal number = new Decimal(input, targetBase);
         System.out.print("Conversion result: ");
-        if (targetBase == 2) {
-            System.out.print(number.ConvertToBinary());
-        } else if (targetBase == 16) {
-            System.out.print(number.ConvertToHexadecimal());
-        } else if (targetBase == 8) {
-            System.out.print(number.ConvertToOctal());
+        if (targetBase == 2 || targetBase == 8 || targetBase == 16) {
+            System.out.print(number.Convert());
         }
     }
 
@@ -58,7 +54,7 @@ public class Main {
             return str1;
         }
 
-        public String ConvertToHexadecimal() {
+/*        public String ConvertToHexadecimal() {
             int number = Integer.parseInt(num);
             String str1 = "";
             while (number / 16 >= 15) {
@@ -71,12 +67,26 @@ public class Main {
             }
 
             return Reverser(str1);
+        }*/
+        public String Convert() {
+            int number = Integer.parseInt(num);
+            String str1 = "";
+            while (number / targetBase >= targetBase - 1) {
+                str1 = HexaWriter(str1, number % targetBase);
+                number = number / targetBase;
+            }
+            str1 = HexaWriter(str1, number % targetBase);
+            if (number / targetBase != 0) {
+                str1 = HexaWriter(str1, number / targetBase);
+            }
+
+            return Reverser(str1);
         }
 
-        public String ConvertToOctal() {
+/*        public String ConvertToOctal() {
             int number = Integer.parseInt(num);
             String str = "";
-            while (number / 2 >= 7) {
+            while (number / 8 >= 7) {
                 str += number % 8;
                 number = number / 8;
             }
@@ -85,9 +95,22 @@ public class Main {
                 str += number / 8;
             }
             return Reverser(str);
-        }
+        }*/
+/*        public String ConvertToBinary_Octal() {
+            int number = Integer.parseInt(num);
+            String str = "";
+            while (number / targetBase >= targetBase - 1) {
+                str += number % targetBase;
+                number = number / targetBase;
+            }
+            str += number % targetBase;
+            if (number / targetBase != 0) {
+                str += number / targetBase;
+            }
+            return Reverser(str);
+        }*/
 
-        public String ConvertToBinary() {
+/*        public String ConvertToBinary() {
             int number = Integer.parseInt(num);
             List<Integer> listOfCharacters = new ArrayList<>();
             while (number / 2 >= 1) {
@@ -101,7 +124,7 @@ public class Main {
                 str += variable;
             }
             return Reverser(str);
-        }
+        }*/
 
         public String Reverser(String str) {
             char[] listOfChar = str.toCharArray();
