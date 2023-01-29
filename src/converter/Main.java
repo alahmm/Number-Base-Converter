@@ -128,20 +128,17 @@ public class Main {
          /**
           * fractional part
           */
-         public String ConvertFractionFromDecimal() {//.setScale(0, RoundingMode.CEILING)
+         public String ConvertFractionFromDecimal() {
              BigDecimal number = new BigDecimal(num);
              String str1 = "";
              while (!number.equals(BigDecimal.ZERO) && str1.length() < 5) {
-                 number = number.multiply(BigDecimal.valueOf(targetBase));
+                 number = number.multiply(BigDecimal.valueOf(targetBase)).setScale(5, RoundingMode.CEILING);
                  if (number.compareTo(BigDecimal.ONE) >= 0) {
                      str1 = HexaWriter(str1, number.toBigInteger());
                      number = number.subtract(new BigDecimal(number.toBigInteger()));
                  } else {
                      str1 = HexaWriter(str1, number.toBigInteger());
                  }
-             }
-             while (str1.length() < 5) {
-                 str1 += "0";
              }
              return "." + str1;
          }
