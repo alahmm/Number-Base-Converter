@@ -1,6 +1,8 @@
 package converter;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,9 +22,24 @@ public class Main {
                     System.out.printf("Enter number in base %s to convert to base %s (To go back type /back) >", baseSource, baseTarget);
                     String input2 = scanner.next();
                     if (!input2.equals("/back")) {
-                        Decimal number = new Decimal(input2, Integer.parseInt(baseSource));
-                        Decimal number2 = new Decimal(number.ConverterToDecimal().toString(), Integer.parseInt(baseTarget));
-                        System.out.printf("Conversion result: %s%n%n", number2.ConvertFromDecimal());
+                        if (input2.contains(".")) {
+                            String[] list = input2.split("\\.");
+                            Decimal number = new Decimal(list[0],Integer.parseInt(baseSource));
+                            Decimal number2 = new Decimal(number.ConverterToDecimal().toString(), Integer.parseInt(baseTarget));
+                            String resultInt = number2.ConvertFromDecimal();
+                            /**converting the fractional part
+                             *
+                             */
+                            Decimal fractionalNumber = new Decimal(list[1], Integer.parseInt(baseSource));
+                            Decimal fractionalNumber2 = new Decimal(fractionalNumber.FractionalConverterToDecimal().toString(), Integer.parseInt(baseTarget));
+                            String resultFraction = fractionalNumber2.ConvertFractionFromDecimal();
+                            System.out.printf("Conversion result: %s%n%n", resultInt + resultFraction);
+                        } else {
+                            Decimal number = new Decimal(input2, Integer.parseInt(baseSource));
+                            Decimal number2 = new Decimal(number.ConverterToDecimal().toString(), Integer.parseInt(baseTarget));
+                            System.out.printf("Conversion result: %s%n%n", number2.ConvertFromDecimal());
+                        }
+
                     } else {
                         break;
                     }
@@ -108,5 +125,49 @@ public class Main {
             }
             return sum;
         }
+         /**
+          * fractional part
+          */
+         public String ConvertFractionFromDecimal() {//.setScale(0, RoundingMode.CEILING)
+             BigDecimal number = new BigDecimal(num);
+             String str1 = "";
+             while (!number.equals(BigDecimal.ZERO) && str1.length() < 5) {
+                 number = number.multiply(BigDecimal.valueOf(targetBase));
+                 if (number.compareTo(BigDecimal.ONE) >= 0) {
+                     str1 = HexaWriter(str1, number.toBigInteger());
+                     number = number.subtract(new BigDecimal(number.toBigInteger()));
+                 } else {
+                     str1 = HexaWriter(str1, number.toBigInteger());
+                 }
+             }
+             while (str1.length() < 5) {
+                 str1 += "0";
+             }
+             return "." + str1;
+         }
+         public BigDecimal FractionalConverterToDecimal() {
+             BigDecimal sum = new BigDecimal("0");
+             String regex = "[0-9]";
+             String str = "";
+             String str2 = "";
+             for (int i = 0; i < num.length() ; i++) {
+                 str += num.charAt(i);
+                 if (str.matches(regex)) {
+                     int var = num.charAt(i) - 48;
+                     double v = var * Math.pow(targetBase, - i - 1);
+                     sum = sum.add(BigDecimal.valueOf(v));
+                     str = "";
+                 } else {
+                     str2 = str.toUpperCase();
+                     for (int j = 0; j < str.length(); j++) {
+                         int var2 = str2.charAt(j) - 55;
+                         double v = var2 * Math.pow(targetBase, - i - 1);
+                         sum = sum.add(BigDecimal.valueOf(v));
+                         str = "";
+                     }
+                 }
+             }
+             return sum;
+         }
     }
 }
