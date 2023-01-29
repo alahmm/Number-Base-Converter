@@ -85,7 +85,7 @@ public class Main {
             return String.valueOf(listOfChar);
         }
         public BigInteger ConverterToDecimal() {
-            BigInteger sum = null;
+            BigInteger sum = new BigInteger("0");
             String regex = "[0-9]";
             String str = "";
             String str2 = "";
@@ -94,22 +94,14 @@ public class Main {
                 if (str.matches(regex)) {
                     int var = num.charAt(i) - 48;
                     long v = (long) (var * Math.pow(targetBase, num.length() - 1 - i));
-                    if (Objects.equals(sum, null)) {
-                        sum = BigInteger.valueOf(v);
-                    } else {
-                        sum = sum.add(BigInteger.valueOf(v));
-                    }
+                    sum = sum.add(BigInteger.valueOf(v));
                     str = "";
                 } else {
                     str2 = str.toUpperCase();
                     for (int j = 0; j < str.length(); j++) {
                         int var2 = str2.charAt(j) - 55;
                         long v = (long) (var2 * Math.pow(targetBase, num.length() - 1 - i));
-                        if (Objects.equals(sum, null)) {
-                            sum = BigInteger.valueOf(v);
-                        } else {
-                            sum = sum.add(BigInteger.valueOf(v));
-                        }
+                        sum = sum.add(BigInteger.valueOf(v));
                         str = "";
                     }
                 }
